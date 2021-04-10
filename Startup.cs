@@ -5,10 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
 
 namespace Freezer
 {
@@ -24,7 +21,8 @@ namespace Freezer
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContextPool<DataContext>(options => options.UseMySql(Configuration.GetConnectionString("DefaultConnection")));
+            // TODO: check mysql db provider
+            services.AddDbContextPool<DataContext>(options => options.UseMySql(ServerVersion.AutoDetect(Configuration.GetConnectionString("DefaultConnection"))));
             services.AddControllersWithViews();
         }
 
