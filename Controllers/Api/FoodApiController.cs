@@ -4,24 +4,28 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-
+using DevExtreme.AspNet.Mvc;
+using DevExtreme.AspNet.Data;
 
 namespace Freezer.Controllers.Api
 {
     public class FoodApiController : Controller
     {
+        private Food[] _testData;
+
         public FoodApiController():base()
         {
-        }
-
-        public async Task<IEnumerable<Food>> Get()
-        {
-            var food = new Food[]
-             {
+            this._testData = new Food[]
+            {
                 new Food {Id =0, Name ="Fisch"},
                 new Food {Id =1, Name ="Gemüse"},
-             };
-            return food;
+            };
+        }
+
+        [HttpGet]
+        public object Get(DataSourceLoadOptions loadOptions)
+        {
+            return DataSourceLoader.Load(this._testData, loadOptions);
         }
 
        [HttpPost]

@@ -14,9 +14,9 @@ namespace Freezer_MVC.Controllers
         private readonly DataContext _context;
         private bool order = true;      // true: aufsteigend sortieren
 
-        public FoodsController(DataContext context)
+        public FoodsController() //DataContext context)
         {
-            _context = context;
+            _context = null;
 
         }
 
@@ -26,15 +26,27 @@ namespace Freezer_MVC.Controllers
             ViewData["GetFooddetails"] = foodsearch;
             ViewData["SortingName"] = string.IsNullOrEmpty(sorting) ? "Name" : "";
             
-            var dataContext = _context.Foods.Include(f => f.FoodGroup).Include(f => f.FoodSupplier);
+            //var dataContext = _context.Foods.Include(f => f.FoodGroup).Include(f => f.FoodSupplier);
            
-            var foodquery =     from x in dataContext
-                                orderby x.Name ascending
-                                select x;
+            // var foodquery =     from x in dataContext
+            //                     orderby x.Name ascending
+            //                     select x;
+
+            var foodquery = new Food[] {
+                new Food {
+                    Name = "Wurst"
+                },
+                new Food {
+                    Name = "Kaese"
+                },
+                new Food {
+                    Name = "Ei"
+                }
+            }.AsQueryable();
            
             if (String.IsNullOrEmpty(foodsearch) && String.IsNullOrEmpty(sorting))
             {
-                return View(await foodquery.ToListAsync());
+                return View(foodquery.ToList());
             }
             if (!String.IsNullOrEmpty(foodsearch))
             {
@@ -60,7 +72,7 @@ namespace Freezer_MVC.Controllers
                 //foodquery = foodquery.Where(x => x.Name.Contains(foodsearch) || x.FoodGroup.Name.Contains(foodsearch));
                 //return View(await foodquery.AsNoTracking().ToListAsync());
             }
-            return View(await foodquery.AsNoTracking().ToListAsync());
+            return View(foodquery.ToList());
         }
 
         // GET: Foods/Details/5

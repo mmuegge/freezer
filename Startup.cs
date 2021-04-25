@@ -6,6 +6,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
+using Microsoft.AspNetCore.Mvc.NewtonsoftJson;
+using Newtonsoft.Json.Serialization;
+//using DevExpress.AspNetCore;
 
 namespace Freezer
 {
@@ -23,7 +26,12 @@ namespace Freezer
         {
             // TODO: check mysql db provider
             services.AddDbContextPool<DataContext>(options => options.UseMySql(ServerVersion.AutoDetect(Configuration.GetConnectionString("DefaultConnection"))));
-            services.AddControllersWithViews();
+            services
+                .AddMvc()
+                .AddNewtonsoftJson(options =>
+                {
+                    options.SerializerSettings.ContractResolver = new DefaultContractResolver();
+                });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -42,6 +50,9 @@ namespace Freezer
             app.UseRouting();
 
             app.UseAuthorization();
+
+            // DevExpress controls
+            //app.UseDevExpressControls();
 
             app.UseEndpoints(endpoints =>
             {

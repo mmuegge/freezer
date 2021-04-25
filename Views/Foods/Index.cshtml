@@ -6,68 +6,45 @@
 
 <h1>Inhalt</h1>
 
-<p>
-    <a asp-action="Create">Neu Anlegen</a>
-</p>
-   
-<form method="get" asp-action="Index">
-    <p>
-        <input type="search" placeholder="Eingabe von Was...oder Gruppe" value="@ViewData["GetFooddetails"]" name="Foodsearch" style="width:500px;" />
-        <input type="submit" value="Suchen" class="btn btn-primary" />
-        <a asp-action="Index">Gesamten Inhalt anzeigen</a>
-    </p>
-</form>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                <a asp-action="Index" asp-route-sortingName=" @ViewData["SortingName"]"> @Html.DisplayNameFor(model => model.Name)</a>
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Amount)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DateIn)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.BestBeforeDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.FoodGroup)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.FoodSupplier)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Amount)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DateIn)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.BestBeforeDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.FoodGroup.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.FoodSupplier.Name)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Editieren</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Löschen</a>
-            </td>
-        </tr>
+<div id="foodGrid"></div>
+
+@section Scripts
+{
+    <script type="text/javascript">
+        $("#foodGrid").dxDataGrid({     
+        dataSource: DevExpress.data.AspNet.createStore({
+            key: "Id",
+            loadUrl: '@(Url.Action("Get", "FoodApi"))'
+        }),
+        remoteOperations: true,   
+        columns: [
+            {
+                dataField: "Id",
+                caption: "Id"
+            },
+            {
+                dataField: "Name",
+                caption: "Name"
+            }
+        ],
+        filterRow: {
+            visible: true
+        },
+        headerFilter: {
+            visible: true
+        },
+        groupPanel: {
+            visible: true
+        },
+        scrolling: {
+            mode: "virtual"
+        },
+        height: 600,
+        editing: {
+            allowAdding: false,
+            allowUpdating: false,
+            allowDeleting: false
+        }
+    });
+    </script>
 }
-    </tbody>
-</table>

@@ -6,6 +6,15 @@
     <title>@ViewData["Title"] - Gefrierschrank</title>
     <link rel="stylesheet" href="~/css/bootstrap/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
+    <link href="~/css/devextreme/dx.common.css" rel="stylesheet" /> 
+    <link href="~/css/devextreme/dx.light.css" rel="stylesheet" /> 
+
+    <script src="~/js/devextreme/jquery.js"></script>
+    <script src="~/js/bootstrap/bootstrap.min.js"></script>
+
+    <script src="~/js/devextreme/dx.all.js"></script>     
+    <script src="~/js/devextreme/dx.aspnet.data.js"></script> 
+    <script src="~/js/devextreme/dx.aspnet.mvc.js"></script>
 </head>
 <body>
     <header>
@@ -46,8 +55,7 @@
             &copy; 2020 - Freezer_MVC <a asp-area="" asp-controller="Home"></a>
         </div>
     </footer>
-    <script src="~/js/devextreme/jquery.js"></script>
-    <script src="~/js/bootstrap/bootstrap.min.js"></script>
+    
     <script src="~/js/site.js" asp-append-version="true"></script>
     @RenderSection("Scripts", required: false)
 </body>
